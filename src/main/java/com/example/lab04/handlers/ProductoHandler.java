@@ -185,9 +185,9 @@ public class ProductoHandler {
 
 
                             //TODO: FIXED
-                            //File fileTemporary = new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
+                            File fileTemporary = new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
 
-                            File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
+                            //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
                             return file.transferTo(fileTemporary).then(productoService.save(producto));
 

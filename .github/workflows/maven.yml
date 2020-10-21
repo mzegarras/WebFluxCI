@@ -15,5 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: shel
+      run: ls -lta
     - name: Build with Maven
       run: mvn verify

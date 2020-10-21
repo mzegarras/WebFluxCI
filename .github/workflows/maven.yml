@@ -16,6 +16,6 @@ jobs:
 
     steps:
     - name: shel
-      run: ls -lta
+      run: ls -lta ../..
     - name: Build with Maven
       run: mvn verify

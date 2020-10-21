@@ -29,7 +29,7 @@ jobs:
         name: Prepare
         id: prep
         run: |
-          ls -lta $GITHUB_WORKSPACE/src/main/docker/Dockerfile
+          ls -lta $GITHUB_WORKSPACE
           pwd
 
       - name: VErificando código

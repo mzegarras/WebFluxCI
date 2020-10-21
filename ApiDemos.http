@@ -1,0 +1,107 @@
+###
+GET http://localhost:8080/productos
+###
+GET http://localhost:8080/apis/productos
+
+###
+GET http://localhost:8080/productos/5f795749a7b0e247d52faed4
+Content-Type: application/json
+
+
+###
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+"nombre": "LG Tv",
+"precio": 3.0,
+"createAt": "2020-10-01T11:57:17.837+00:00",
+"categoria": {
+"id": "5f75c41d4fccd7044d16bc51",
+"nombre": "TVs"
+}
+}
+
+###
+PUT http://localhost:8080/productos/5f796200e679fe10e3cdcc97
+Content-Type: application/json
+
+{
+  "nombre": "LG Tv v3",
+  "precio": 4.0,
+  "categoria": {
+    "id": "5f75c41d4fccd7044d16bc51",
+    "nombre": "TVs"
+  }
+}
+
+
+
+###
+DELETE http://localhost:8080/productos/5f796200e679fe10e3cdcc97
+
+
+
+
+
+###
+POST http://localhost:8080/productos/5f7961ffe679fe10e3cdcc96/images
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Screen Shot 2020-10-02 at 19.13.18.png"
+
+< /Users/mzegarra/Desktop/Screen Shot 2020-10-02 at 19.13.18.png
+--WebAppBoundary--
+###
+
+
+
+
+###
+GET http://localhost:8080/productos/5f7928292765300d1e2d7c66
+
+###
+
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+  "nombre": "LG Tv",
+  "precio": 3.0,
+  "createAt": "2020-10-01T11:57:17.837+00:00",
+  "categoria": {
+    "id": "5f75c41d4fccd7044d16bc51",
+    "nombre": "TVs"
+  }
+}
+
+###
+
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+  "nombre": "LG Tv",
+  "createAt": "2020-10-01T11:57:17.837+00:00"
+}
+
+
+
+
+###
+PUT http://localhost:8080/productos/5f7920dee9fe5a52c9a776fd
+Content-Type: application/json
+
+{
+  "nombre": "LG Tv v2",
+  "precio": 3.0,
+  "createAt": "2020-10-01T11:57:17.837+00:00",
+  "categoria": {
+    "id": "5f75c41d4fccd7044d16bc51",
+    "nombre": "TVs"
+  }
+}
+
+
+

@@ -39,7 +39,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@Disabled
+//@Disabled
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerTest.TestConfiguration.class})

@@ -115,10 +115,10 @@ public class ProductoHandler {
                 //productoService.save(p);
 
                 return productoService.save(p)
-                       /* .map(p1->{
+                        .map(p1->{
                             p1.setAppId("001");
                             return p1;
-                        })*/
+                        })
                         .flatMap(pdb -> ServerResponse
                                 .created(URI.create("/productos/" + pdb.getId()))
                                 .contentType(MediaType.APPLICATION_JSON)

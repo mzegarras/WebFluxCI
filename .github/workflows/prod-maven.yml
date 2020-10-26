@@ -74,3 +74,20 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Push image
         run: docker push ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest
+  ci:
+    if: github.event.pull_request.merged == true
+    name: Continuous Integration - Deployment
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: falti/dotenv-action@v0.2.5
+        id: dotenv
+        with:
+          path: ./config/dev.env
+      - name: Hello world
+        run: echo Hello world $FIRST_NAME $middle_name $Last_Name ${{ steps.dotenv.outputs.version }}!
+        env:
+          FIRST_NAME: Mona
+          middle_name: The
+          Last_Name: Octocat

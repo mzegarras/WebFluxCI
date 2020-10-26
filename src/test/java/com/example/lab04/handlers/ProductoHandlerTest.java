@@ -12,6 +12,7 @@ import com.example.lab04.models.services.ProductoService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -231,6 +232,7 @@ public class ProductoHandlerTest {
 
     }
     @Test
+    @Disabled
     public void post_uploadImage_created(){
 
         // Preparing data
@@ -604,6 +606,7 @@ public class ProductoHandlerTest {
 
 
     @Test
+    @Disabled
     public void post_createProductv2_created(){
 
         // Preparing data

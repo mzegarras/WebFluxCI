@@ -115,7 +115,7 @@ public class ProductoHandler {
                 //productoService.save(p);
 
                 return productoService.save(p)
-                        /*.map(p1->{
+                       /* .map(p1->{
                             p1.setAppId("001");
                             return p1;
                         })*/
@@ -185,7 +185,8 @@ public class ProductoHandler {
 
 
                             //TODO: FIXED
-                            File fileTemporary = new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
+
+                            File fileTemporary = new File(FilenameUtils.getName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
 
                             //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
@@ -223,7 +224,7 @@ public class ProductoHandler {
 
                             producto.setCreateAt(new Date());
 
-                            return file.transferTo(new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto())))
+                            return file.transferTo(new File(FilenameUtils.getName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto())))
                                     .then(productoService.save(producto));
 
                             /*return file.transferTo(new File(this.filesProperties.getPath(), producto.getFoto()))

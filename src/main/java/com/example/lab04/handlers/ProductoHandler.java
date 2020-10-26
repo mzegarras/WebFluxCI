@@ -184,7 +184,7 @@ public class ProductoHandler {
                                     .replace(":", ""));
 
 
-                            //TODO: FIXED
+                            //TODO: FIXED 1
 
                             File fileTemporary = new File(FilenameUtils.getName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
 

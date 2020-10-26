@@ -185,7 +185,7 @@ public class ProductoHandler {
 
 
                             //TODO: FIXED
-                            File fileTemporary = new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
+                            File fileTemporary = new File(FilenameUtils.getPath(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
 
                             //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
@@ -223,7 +223,7 @@ public class ProductoHandler {
 
                             producto.setCreateAt(new Date());
 
-                            return file.transferTo(new File(FilenameUtils.getBaseName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto())))
+                            return file.transferTo(new File(FilenameUtils.getPath(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto())))
                                     .then(productoService.save(producto));
 
                             /*return file.transferTo(new File(this.filesProperties.getPath(), producto.getFoto()))

@@ -19,7 +19,7 @@ on:
 
 jobs:
 
-  ci:
+  build:
     if: github.event.pull_request.merged == true
     name: Continuous Integration - Deployment
     runs-on: ubuntu-18.04
@@ -74,9 +74,10 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Push image
         run: docker push ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest
-  ci:
+  deploy:
     if: github.event.pull_request.merged == true
-    name: Continuous Integration - Deployment
+    name: Deploy dev
+    needs: build
     runs-on: ubuntu-18.04
 
     steps:

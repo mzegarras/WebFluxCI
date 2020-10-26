@@ -232,6 +232,7 @@ public class ProductoHandlerTest {
 
     }
     @Test
+    @Disabled
     public void post_uploadImage_created(){
 
         // Preparing data
@@ -605,6 +606,7 @@ public class ProductoHandlerTest {
 
 
     @Test
+    @Disabled
     public void post_createProductv2_created(){
 
         // Preparing data

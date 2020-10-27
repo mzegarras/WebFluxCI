@@ -233,7 +233,6 @@ public class ProductoHandlerTest {
 
     }
     @Test
-    @Disabled
     public void post_uploadImage_created(){
 
         // Preparing data
@@ -629,6 +628,9 @@ public class ProductoHandlerTest {
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("red-traffic-sign-to-print.jpg").getFile());
+
+
+
         bodyBuilder.part("file", new FileSystemResource(file));
         bodyBuilder.part("nombre","producto1");
         bodyBuilder.part("precio","1.5");

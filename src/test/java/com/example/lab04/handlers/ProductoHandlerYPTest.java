@@ -26,7 +26,7 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@Disabled
+//@Disabled
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerYPTest.TestConfiguration.class})

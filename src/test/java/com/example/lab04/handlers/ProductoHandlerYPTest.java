@@ -99,20 +99,7 @@ public class ProductoHandlerYPTest {
                 .expectStatus().isCreated()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectHeader().valueEquals(HttpHeaders.LOCATION, "/productos/abc123");
-                /*.expectBody(Producto.class)
-                .consumeWith(response -> {
-                    Producto p = response.getResponseBody();
-                    assertThat(p.getId()).isEqualTo("abc123");
-                    assertThat(p.getNombre()).isEqualTo("producto1");
-                    assertThat(p.getPrecio()).isEqualTo(1.5d);
-                    assertThat(p.getCreateAt()).isEqualTo(dateSystem);
-                    assertThat(p.getCategoria()).isEqualTo(categoria);
-                });*/
-        // Validating mocks behaviour
-        //verify(productoService,times(1)).save(productoToCreated);
-        //verifyNoMoreInteractions(productoService);
-
-        // Validating results
+                
 
     }
 

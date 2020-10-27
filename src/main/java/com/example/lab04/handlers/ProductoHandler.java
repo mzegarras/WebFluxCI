@@ -171,7 +171,7 @@ public class ProductoHandler {
 
     private File getFileTemporary(Producto producto){
 
-        String fullPath = FilenameUtils.getBaseName(this.filesProperties.getPath());
+        String fullPath = this.filesProperties.getPath();
         String fileName = FilenameUtils.getName(producto.getFoto());
         File fileTemporary = new File( fullPath,fileName);
         return fileTemporary;
@@ -185,8 +185,6 @@ public class ProductoHandler {
                 .cast(FilePart.class)
                 .flatMap(file -> productoService.findById(id)
                         .flatMap(producto -> {
-
-
                             producto.setFoto(file.filename()
                                     .replace(" ", "")
                                     .replace("\\", "")
@@ -196,10 +194,7 @@ public class ProductoHandler {
                             //TODO: FIXED 1
                             //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
-                            return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(p->{
-                                p.printStackTrace();
-                                return Mono.just(producto);
-                            });
+                            return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto));
 
                         })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId(), "images").build().toUri())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -234,26 +229,15 @@ public class ProductoHandler {
                             producto.setCreateAt(new Date());
 
 
-                            return file. transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
-                                e.printStackTrace();
-                                return Mono.just(producto);
-                            });
+                            return file. transferTo(getFileTemporary(producto)).then(productoService.save(producto));
 
 
-                        })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId()).build().toUri())
+
+                        })).flatMap(productoDB -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", productoDB.getId()).build().toUri())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(producto)))
+                        .body(fromValue(productoDB)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
 }
 
-
- /*   MultipartFile multipartFile = new MockMultipartFile("sourceFile.tmp", "Hello World".getBytes());
-
-    File file = new File("src/main/resources/targetFile.tmp");
-
-multipartFile.transferTo(file);
-
-        assertThat(FileUtils.readFileToString(new File("src/main/resources/targetFile.tmp"), "UTF-8"))
-        .isEqualTo("Hello World");*/

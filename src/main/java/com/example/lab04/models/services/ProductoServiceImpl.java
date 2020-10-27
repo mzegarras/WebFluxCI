@@ -27,7 +27,6 @@ public class ProductoServiceImpl implements ProductoService {
     public Flux<Producto> findAll() {
         log.debug("filesProperties.isInPanic{}",filesProperties.isInPanic());
 
-
         return productoDao.findAll();
     }
 
@@ -40,7 +39,6 @@ public class ProductoServiceImpl implements ProductoService {
                     p.setNombre(p.getNombre().toUpperCase());
                     return p;
                 });
-
     }
 
     @Override

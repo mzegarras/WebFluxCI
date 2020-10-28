@@ -110,14 +110,15 @@ public class ProductoHandler {
                 }
 
 
-                // TODO: Behavior
-               productoService.save(p);
+                // TODO: BEHAVIOR
+               //productoService.save(p);
 
                 return productoService.save(p)
-                        /*.map(p1->{
+                        // TODO: OUTPUT DATA
+                        .map(p1->{
                             p1.setAppId("001");
                             return p1;
-                        })*/
+                        })
                         .flatMap(pdb -> ServerResponse
                                 .created(URI.create("/productos/" + pdb.getId()))
                                 .contentType(MediaType.APPLICATION_JSON)

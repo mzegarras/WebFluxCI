@@ -1,7 +1,7 @@
 package com.example.lab04.handlers;
 
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.config.RouteFunctionConfig;
 import com.example.lab04.exceptions.UnauthorizedException;
 import com.example.lab04.models.documents.Categoria;
@@ -46,16 +46,21 @@ public class ProductoHandlerTest {
 
     public static class TestConfiguration{
         @Bean
-        public FilesProperties filesProperties(){
-            FilesProperties filesProperties = new FilesProperties();
+        public MicroserviceProperties filesProperties(){
+            MicroserviceProperties microserviceProperties = new MicroserviceProperties();
             String pathFiles = System.getenv("GITHUB_WORKSPACE");
+            microserviceProperties.setPhotos(new MicroserviceProperties.ConfigDirectory());
 
            if(StringUtils.isNotBlank(pathFiles))
-                filesProperties.setPath(pathFiles);
+               microserviceProperties.getPhotos().setPath(pathFiles);
            else
-               filesProperties.setPath("./target");
+               microserviceProperties.getPhotos().setPath("./target");
 
-            return filesProperties;
+
+            microserviceProperties.setJwt(new MicroserviceProperties.JWTConfig());
+            microserviceProperties.getJwt().setKey("12345678901234567890123456789012");
+
+            return microserviceProperties;
         }
     }
 
@@ -66,18 +71,18 @@ public class ProductoHandlerTest {
     private ProductoService productoService;
 
     @Autowired
-    private FilesProperties filesProperties;
+    private MicroserviceProperties microserviceProperties;
 
     @BeforeEach
     void resetMocksAndStubs() {
         reset(productoService);
-        filesProperties.setInPanic(false);
+        microserviceProperties.setInPanic(false);
     }
 
     @Test
     public void sanity() {
         assertThat(client).isNotNull();
-        assertThat(filesProperties).isNotNull();
+        assertThat(microserviceProperties).isNotNull();
     }
 
     @Test
@@ -131,7 +136,7 @@ public class ProductoHandlerTest {
     @Test
     public void delete_byId_InPanic_exception(){
         // Preparing data
-        filesProperties.setInPanic(true);
+        microserviceProperties.setInPanic(true);
 
         // Mocks & Stubs configuration
 
@@ -347,7 +352,7 @@ public class ProductoHandlerTest {
                         "\"jti\":\"1\"," +
                         "\"client_id\":\"app2\"}"));
 
-        jwsObject.sign(new MACSigner("12345678901234567890123456789012"));
+        jwsObject.sign(new MACSigner(microserviceProperties.getJwt().getKey()));
         String JWT = jwsObject.serialize();
 
         Categoria categoria = new Categoria();

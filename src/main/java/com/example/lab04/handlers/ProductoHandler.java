@@ -1,6 +1,6 @@
 package com.example.lab04.handlers;
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.exceptions.UnauthorizedException;
 import com.example.lab04.models.documents.Categoria;
 import com.example.lab04.models.documents.CustomFieldError;
@@ -38,14 +38,14 @@ import java.util.Date;
 public class ProductoHandler {
 
     private final ProductoService productoService;
-    private final FilesProperties filesProperties;
+    private final MicroserviceProperties microserviceProperties;
     private final Validator validator;
 
     private static final Logger log = LoggerFactory.getLogger(ProductoHandler.class);
 
-    public ProductoHandler(ProductoService productoService, FilesProperties filesProperties, Validator validator) {
+    public ProductoHandler(ProductoService productoService, MicroserviceProperties microserviceProperties, Validator validator) {
         this.productoService = productoService;
-        this.filesProperties = filesProperties;
+        this.microserviceProperties = microserviceProperties;
         this.validator = validator;
     }
 
@@ -146,7 +146,7 @@ public class ProductoHandler {
 
         //return ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
 
-        if (filesProperties.isInPanic()) {
+        if (microserviceProperties.isInPanic()) {
             return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS).build();
         }
 
@@ -165,7 +165,7 @@ public class ProductoHandler {
 
     private File getFileTemporary(Producto producto){
 
-        File fileTemporary = new File( this.filesProperties.getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
+        File fileTemporary = new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
 
         return fileTemporary;
 

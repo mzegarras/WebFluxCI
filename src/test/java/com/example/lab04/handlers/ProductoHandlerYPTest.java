@@ -1,7 +1,7 @@
 package com.example.lab04.handlers;
 
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.config.RouteFunctionConfig;
 import com.example.lab04.models.documents.Categoria;
 import com.example.lab04.models.documents.Producto;
@@ -35,16 +35,17 @@ public class ProductoHandlerYPTest {
 
     public static class TestConfiguration{
         @Bean
-        public FilesProperties filesProperties(){
-            FilesProperties filesProperties = new FilesProperties();
+        public MicroserviceProperties filesProperties(){
+            MicroserviceProperties microserviceProperties = new MicroserviceProperties();
             String pathFiles = System.getenv("GITHUB_WORKSPACE");
+            microserviceProperties.setPhotos(new MicroserviceProperties.ConfigDirectory());
 
             if(StringUtils.isNotBlank(pathFiles))
-                filesProperties.setPath(pathFiles);
+                microserviceProperties.getPhotos().setPath(pathFiles);
             else
-                filesProperties.setPath("./target");
+                microserviceProperties.getPhotos().setPath("./target");
 
-            return filesProperties;
+            return microserviceProperties;
         }
     }
 
@@ -55,18 +56,18 @@ public class ProductoHandlerYPTest {
     private ProductoService productoService;
 
     @Autowired
-    private FilesProperties filesProperties;
+    private MicroserviceProperties microserviceProperties;
 
     @BeforeEach
     void resetMocksAndStubs() {
         reset(productoService);
-        filesProperties.setInPanic(false);
+        microserviceProperties.setInPanic(false);
     }
 
     @Test
     public void sanity() {
         assertThat(client).isNotNull();
-        assertThat(filesProperties).isNotNull();
+        assertThat(microserviceProperties).isNotNull();
     }
 
 

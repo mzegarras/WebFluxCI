@@ -106,6 +106,8 @@ public class ProductoServiceImplTest {
     @Test
     public void findAllWithNameUpperCase_ok(){
 
+        //TODO: Verificar la lógica de negocio
+
         // Preparing data
         Producto p1 =  new Producto();
         p1.setId("1");
@@ -148,7 +150,7 @@ public class ProductoServiceImplTest {
                 .verifyComplete();
     }
 
-
+    /*
     @Test
     public void findAll_error(){
 
@@ -169,7 +171,7 @@ public class ProductoServiceImplTest {
         StepVerifier.create(productoFlux.log())
                 .expectError(RuntimeException.class)
                 .verify();
-    }
+    }*/
 
 
 }

@@ -178,6 +178,8 @@ public class ProductoHandlerTest {
     @Test
     public void post_createProductWithCategory_badRequest(){
 
+        //TODO: Validar errores
+
         // Preparing data
         Producto productoBad =  new Producto();
         productoBad.setCategoria(new Categoria());

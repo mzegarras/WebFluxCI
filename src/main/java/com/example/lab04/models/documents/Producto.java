@@ -25,6 +25,8 @@ public class Producto implements Serializable {
     @Id
     private String id;
 
+
+    //TODO: Validar entradas
     @NotEmpty
     private String nombre;
 

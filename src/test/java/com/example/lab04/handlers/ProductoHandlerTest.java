@@ -19,7 +19,10 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -255,9 +258,8 @@ public class ProductoHandlerTest {
 
 
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("red-traffic-sign-to-print.jpg").getFile());
-        bodyBuilder.part("file", new FileSystemResource(file));
+        Resource logo = new ClassPathResource("red-traffic-sign-to-print.jpg");
+        bodyBuilder.part("file",logo);
 
         // Mocks & Stubs configuration
         when(productoService.findById("abc123")).thenReturn(Mono.just(producto));
@@ -282,7 +284,7 @@ public class ProductoHandlerTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     public void post_createProduct_created(){
 
         // Preparing data
@@ -630,16 +632,8 @@ public class ProductoHandlerTest {
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
 
 
-        byte[] ballBytes = new byte[]{
-                (byte) 0x89, (byte) 0x50, (byte) 0x4e, (byte) 0x47, (byte) 0x0d, (byte) 0x0a, (byte) 0x1a, (byte) 0x0a, (byte) 0x00,
-                (byte) 0x00, (byte) 0x00, (byte) 0x0d, (byte) 0x49, (byte) 0x48, (byte) 0x44, (byte) 0x52, (byte) 0x00, (byte) 0x00
-        };
-
-
-        MockMultipartFile file = new MockMultipartFile("file", "hello.txt", MediaType.IMAGE_PNG_VALUE, "Hello, World!".getBytes());
-
-
-        bodyBuilder.part("file", file);
+        Resource logo = new ClassPathResource("red-traffic-sign-to-print.jpg");
+        bodyBuilder.part("file", logo);
         bodyBuilder.part("nombre","producto1");
         bodyBuilder.part("precio","1.5");
         bodyBuilder.part("categoria.id","1");

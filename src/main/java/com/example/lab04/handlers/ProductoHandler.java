@@ -7,11 +7,7 @@ import com.example.lab04.models.documents.CustomFieldError;
 import com.example.lab04.models.documents.Producto;
 import com.example.lab04.models.services.ProductoService;
 
-//import org.apache.commons.io.FilenameUtils;
-//import com.nimbusds.jwt.JWT;
-//import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
-//import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +28,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 
 import java.io.File;
 import java.net.URI;
@@ -79,7 +74,6 @@ public class ProductoHandler {
     public Mono<ServerResponse> create(ServerRequest rq) {
 
         Mono<Producto> producto = rq.bodyToMono(Producto.class);
-
 
         return producto.flatMap(p -> {
 
@@ -171,10 +165,12 @@ public class ProductoHandler {
 
     private File getFileTemporary(Producto producto){
 
-        String fullPath = this.filesProperties.getPath();
+
+        String fullPath = FilenameUtils.getPath(this.filesProperties.getPath());
         String fileName = FilenameUtils.getName(producto.getFoto());
         File fileTemporary = new File( fullPath,fileName);
         return fileTemporary;
+
     }
 
     public Mono<ServerResponse> upload(ServerRequest request) {
@@ -194,7 +190,10 @@ public class ProductoHandler {
                             //TODO: FIXED 1
                             //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
-                            return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto));
+                            return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
+                                e.printStackTrace();
+                                return Mono.just(producto);
+                            });
 
                         })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId(), "images").build().toUri())
                         .contentType(MediaType.APPLICATION_JSON)

@@ -26,7 +26,7 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-//@Disabled
+@Disabled
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerYPTest.TestConfiguration.class})
@@ -99,7 +99,7 @@ public class ProductoHandlerYPTest {
                 .expectStatus().isCreated()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectHeader().valueEquals(HttpHeaders.LOCATION, "/productos/abc123");
-                
+
 
     }
 

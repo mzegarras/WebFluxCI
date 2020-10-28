@@ -48,7 +48,7 @@ public class ProductoHandlerTest {
         @Bean
         public FilesProperties filesProperties(){
             FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
+            filesProperties.setPath("./target");
             return filesProperties;
         }
     }

@@ -346,6 +346,7 @@ public class ProductoHandlerTest {
     public void post_createProductWithApp_created() throws JOSEException {
 
         // Preparing data
+        //TODO: DATA claro
         JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256),
                 new Payload("{\"scope\":[\"token:application\",\"application:app2\"]," +
                         "\"exp\":1556040529," +

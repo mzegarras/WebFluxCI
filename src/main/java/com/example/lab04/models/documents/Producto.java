@@ -26,7 +26,7 @@ public class Producto implements Serializable {
     private String id;
 
 
-    //TODO: Validar entradas
+    //TODO: YP VALIDATE
     @NotEmpty
     private String nombre;
 

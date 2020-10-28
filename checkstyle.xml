@@ -44,6 +44,7 @@ https://gitee.com/mirrors/Elide/blob/master/checkstyle-style.xml?skip_mobile=tru
                 org.assertj.core.api.Assertions.*,
                 org.mockito.Mockito.*,
                 com.nimbusds.jose.*" />
+      <property name="allowStaticMemberImports" value="false"/>
     </module>
 
 

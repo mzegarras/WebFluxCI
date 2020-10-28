@@ -40,7 +40,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@Disabled
+
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerTest.TestConfiguration.class})
@@ -137,6 +137,8 @@ public class ProductoHandlerTest {
 
     @Test
     public void delete_byId_InPanic_exception(){
+        //TODO: Verificar properties y comportamiento
+
         // Preparing data
         microserviceProperties.setInPanic(true);
 

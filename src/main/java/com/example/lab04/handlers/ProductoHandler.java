@@ -176,9 +176,7 @@ public class ProductoHandler {
 
     private File getFileTemporary(Producto producto){
 
-        File fileTemporary = new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
-
-        return fileTemporary;
+        return new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
 
     }
 

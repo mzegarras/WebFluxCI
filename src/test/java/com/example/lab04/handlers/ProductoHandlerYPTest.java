@@ -7,7 +7,6 @@ import com.example.lab04.models.documents.Categoria;
 import com.example.lab04.models.documents.Producto;
 import com.example.lab04.models.services.ProductoService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.platform.commons.util.StringUtils;

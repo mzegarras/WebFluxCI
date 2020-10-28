@@ -247,7 +247,7 @@
 						<configuration>
 							<!--configLocation>google_checks.xml</configLocation-->
 							<!--configLocation>sun_checks.xml</configLocation-->
-
+							<configLocation>checkstyle.xml</configLocation>
 							<encoding>utf-8</encoding>
 							<consoleOutput>true</consoleOutput>
 							<failsOnError>true</failsOnError>

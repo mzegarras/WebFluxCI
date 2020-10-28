@@ -14,6 +14,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -48,7 +49,13 @@ public class ProductoHandlerTest {
         @Bean
         public FilesProperties filesProperties(){
             FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
+            String pathFiles = System.getenv("GITHUB_WORKSPACE");
+
+           if(StringUtils.isNotBlank(pathFiles))
+                filesProperties.setPath(pathFiles);
+           else
+               filesProperties.setPath("./target");
+
             return filesProperties;
         }
     }

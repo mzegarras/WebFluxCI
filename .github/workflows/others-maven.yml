@@ -54,12 +54,10 @@ jobs:
           name: jacoco-report
           path: target/site/jacoco/
       - name: Run check style
-        uses: nikitasavinov/checkstyle-action@master
+        uses: jwgmeligmeyling/checkstyle-github-action@master
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: 'github-pr-check'
-          tool_name: 'testtool'
+          path: '**/checkstyle-result.xml'
       - uses: codecov/codecov-action@v1
         if: always()
         with:

@@ -20,7 +20,6 @@ public class FilesProperties {
 
     private boolean inPanic;
 
-
     public boolean isInPanic() {
         return inPanic;
     }

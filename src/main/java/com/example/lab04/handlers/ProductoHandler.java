@@ -163,14 +163,9 @@ public class ProductoHandler {
     }
 
 
-    //@SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private File getFileTemporary(Producto producto){
 
-
-        String fullPath = FilenameUtils.getFullPath(this.filesProperties.getPath());
-        String fileName =FilenameUtils.concat(fullPath , FilenameUtils.getName(producto.getFoto()));
-        File fileTemporary = new File( FilenameUtils.normalize(fileName));
-
+        File fileTemporary = new File( this.filesProperties.getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
 
         return fileTemporary;
 
@@ -184,18 +179,13 @@ public class ProductoHandler {
                 .cast(FilePart.class)
                 .flatMap(file -> productoService.findById(id)
                         .flatMap(producto -> {
-                            producto.setFoto(file.filename()
-                                    .replace(" ", "")
-                                    .replace("\\", "")
-                                    .replace(":", ""));
-
-
+                            producto.setFoto(file.filename());
                             //TODO: FIXED 1
                             //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
 
                             return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
                                 e.printStackTrace();
-                                return Mono.just(producto);
+                                return Mono.error(e);
                             });
 
                         })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId(), "images").build().toUri())
@@ -223,15 +213,13 @@ public class ProductoHandler {
                 .cast(FilePart.class)
                 .flatMap(file -> productoMono
                         .flatMap(producto -> {
-                            producto.setFoto(file.filename()
-                                    .replace(" ", "")
-                                    .replace("\\", "")
-                                    .replace(":", ""));
-
+                            producto.setFoto(file.filename());
                             producto.setCreateAt(new Date());
 
-
-                            return file. transferTo(getFileTemporary(producto)).then(productoService.save(producto));
+                            return file. transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
+                                e.printStackTrace();
+                                return Mono.error(e);
+                            });
 
 
 

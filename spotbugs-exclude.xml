@@ -19,7 +19,7 @@ under the License.
     <Match>
         <!-- new file on user input can be dangerous but OK here -->
         <Class name="com.example.lab04.handlers.ProductoHandler"/>
-
+        <Method name="getFileTemporary" />
         <Bug code="PATH" pattern="PATH_TRAVERSAL_IN"/>
     </Match>
 </FindBugsFilter>

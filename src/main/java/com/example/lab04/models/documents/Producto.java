@@ -73,7 +73,8 @@ public class Producto implements Serializable {
         this.precio = precio;
     }
 
-    public Date getCreateAt() {
+    //TODO: Spotbugs
+    /*public Date getCreateAt() {
         //return this.createAt;
         return this.createAt != null ? (Date) createAt.clone() : null;
     }
@@ -81,7 +82,7 @@ public class Producto implements Serializable {
     public void setCreateAt(Date createAt) {
         //this.createAt=createAt;
         this.createAt = createAt != null ? (Date) createAt.clone() : null;
-    }
+    }*/
 
     @Valid
     @NotNull

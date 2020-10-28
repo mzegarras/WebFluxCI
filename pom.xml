@@ -214,7 +214,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+					<excludeFilterFile>config/spotbugs-exclude.xml</excludeFilterFile>
 					<threshold>low</threshold>
 					<plugins>
 						<plugin>
@@ -226,7 +226,10 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
+			<!--configLocation>google_checks.xml</configLocation-->
+			<!--configLocation>sun_checks.xml</configLocation-->
+
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
@@ -245,9 +248,7 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<!--configLocation>google_checks.xml</configLocation-->
-							<!--configLocation>sun_checks.xml</configLocation-->
-							<configLocation>checkstyle.xml</configLocation>
+							<configLocation>config/checkstyle.xml</configLocation>
 							<encoding>utf-8</encoding>
 							<consoleOutput>true</consoleOutput>
 							<failsOnError>true</failsOnError>
@@ -257,7 +258,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin-->
 
 
 

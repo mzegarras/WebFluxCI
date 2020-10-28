@@ -9,6 +9,8 @@ import com.example.lab04.models.services.ProductoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,17 +28,23 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@Disabled
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerYPTest.TestConfiguration.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProductoHandlerYPTest {
 
     public static class TestConfiguration{
         @Bean
         public FilesProperties filesProperties(){
             FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
+            String pathFiles = System.getenv("GITHUB_WORKSPACE");
+
+            if(StringUtils.isNotBlank(pathFiles))
+                filesProperties.setPath(pathFiles);
+            else
+                filesProperties.setPath("./target");
+
             return filesProperties;
         }
     }

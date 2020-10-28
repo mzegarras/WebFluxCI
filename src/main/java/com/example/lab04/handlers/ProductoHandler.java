@@ -52,7 +52,9 @@ public class ProductoHandler {
     public Mono<ServerResponse> list(ServerRequest rq) {
 
         log.debug("list");
-        int x = 0;
+        // TODO: PMD
+        //int valor = 0;
+
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -107,7 +109,9 @@ public class ProductoHandler {
                     p.setCreateAt(new Date());
                 }
 
-               // productoService.save(p);
+
+                // TODO: Behavior
+               productoService.save(p);
 
                 return productoService.save(p)
                         /*.map(p1->{
@@ -180,9 +184,6 @@ public class ProductoHandler {
                 .flatMap(file -> productoService.findById(id)
                         .flatMap(producto -> {
                             producto.setFoto(file.filename());
-                            //TODO: FIXED 1
-                            //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
-
                             return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
                                 e.printStackTrace();
                                 return Mono.error(e);

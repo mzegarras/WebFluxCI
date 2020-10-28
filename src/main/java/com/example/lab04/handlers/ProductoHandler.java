@@ -52,7 +52,7 @@ public class ProductoHandler {
     public Mono<ServerResponse> list(ServerRequest rq) {
 
         log.debug("list");
-       // int x = 0;
+        int x = 0;
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)

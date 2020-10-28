@@ -1,7 +1,7 @@
 package com.example.lab04.handlers;
 
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.config.RouteFunctionConfig;
 import com.example.lab04.models.documents.Categoria;
 import com.example.lab04.models.documents.Producto;
@@ -9,6 +9,8 @@ import com.example.lab04.models.services.ProductoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,18 +28,26 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@Disabled
+//@Disabled
 @WebFluxTest()
 @Import({RouteFunctionConfig.class, ProductoHandler.class})
 @ContextConfiguration(classes = {ProductoHandlerYPTest.TestConfiguration.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProductoHandlerYPTest {
 
     public static class TestConfiguration{
         @Bean
-        public FilesProperties filesProperties(){
-            FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
-            return filesProperties;
+        public MicroserviceProperties filesProperties(){
+            MicroserviceProperties microserviceProperties = new MicroserviceProperties();
+            String pathFiles = System.getenv("GITHUB_WORKSPACE");
+            microserviceProperties.setPhotos(new MicroserviceProperties.ConfigDirectory());
+
+            if(StringUtils.isNotBlank(pathFiles))
+                microserviceProperties.getPhotos().setPath(pathFiles);
+            else
+                microserviceProperties.getPhotos().setPath("./target");
+
+            return microserviceProperties;
         }
     }
 
@@ -48,18 +58,18 @@ public class ProductoHandlerYPTest {
     private ProductoService productoService;
 
     @Autowired
-    private FilesProperties filesProperties;
+    private MicroserviceProperties microserviceProperties;
 
     @BeforeEach
     void resetMocksAndStubs() {
         reset(productoService);
-        filesProperties.setInPanic(false);
+        microserviceProperties.setInPanic(false);
     }
 
     @Test
     public void sanity() {
         assertThat(client).isNotNull();
-        assertThat(filesProperties).isNotNull();
+        assertThat(microserviceProperties).isNotNull();
     }
 
 
@@ -99,20 +109,7 @@ public class ProductoHandlerYPTest {
                 .expectStatus().isCreated()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectHeader().valueEquals(HttpHeaders.LOCATION, "/productos/abc123");
-                /*.expectBody(Producto.class)
-                .consumeWith(response -> {
-                    Producto p = response.getResponseBody();
-                    assertThat(p.getId()).isEqualTo("abc123");
-                    assertThat(p.getNombre()).isEqualTo("producto1");
-                    assertThat(p.getPrecio()).isEqualTo(1.5d);
-                    assertThat(p.getCreateAt()).isEqualTo(dateSystem);
-                    assertThat(p.getCategoria()).isEqualTo(categoria);
-                });*/
-        // Validating mocks behaviour
-        //verify(productoService,times(1)).save(productoToCreated);
-        //verifyNoMoreInteractions(productoService);
 
-        // Validating results
 
     }
 

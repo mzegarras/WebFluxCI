@@ -2,7 +2,7 @@ package com.example.lab04.models.services;
 
 
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.models.dao.ProductoDao;
 import com.example.lab04.models.documents.Producto;
 import lombok.extern.slf4j.Slf4j;
@@ -15,32 +15,30 @@ import reactor.core.publisher.Mono;
 public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoDao productoDao;
-    private final FilesProperties filesProperties;
+    private final MicroserviceProperties microserviceProperties;
 
 
-    public ProductoServiceImpl(ProductoDao productoDao,FilesProperties filesProperties) {
+    public ProductoServiceImpl(ProductoDao productoDao, MicroserviceProperties microserviceProperties) {
         this.productoDao = productoDao;
-        this.filesProperties=filesProperties;
+        this.microserviceProperties = microserviceProperties;
     }
 
     @Override
     public Flux<Producto> findAll() {
-        log.debug("filesProperties.isInPanic{}",filesProperties.isInPanic());
-
+        log.debug("filesProperties.isInPanic{}", microserviceProperties.isInPanic());
 
         return productoDao.findAll();
     }
 
     @Override
     public Flux<Producto> findAllWithNameUpperCase() {
-        log.debug("filesProperties.isInPanic{}",filesProperties.isInPanic());
+        log.debug("filesProperties.isInPanic{}", microserviceProperties.isInPanic());
 
        return productoDao.findAll()
                 .map(p->{
                     p.setNombre(p.getNombre().toUpperCase());
                     return p;
                 });
-
     }
 
     @Override

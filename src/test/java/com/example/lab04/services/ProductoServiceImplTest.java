@@ -1,6 +1,6 @@
 package com.example.lab04.services;
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.models.dao.ProductoDao;
 import com.example.lab04.models.documents.Producto;
 import com.example.lab04.models.services.ProductoService;
@@ -8,6 +8,7 @@ import com.example.lab04.models.services.ProductoServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
@@ -27,15 +28,22 @@ public class ProductoServiceImplTest {
 
     public static class TestConfiguration{
         @Bean
-        public FilesProperties filesProperties(){
-            FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
-            return filesProperties;
+        public MicroserviceProperties filesProperties(){
+            MicroserviceProperties microserviceProperties = new MicroserviceProperties();
+            String pathFiles = System.getenv("GITHUB_WORKSPACE");
+            microserviceProperties.setPhotos(new MicroserviceProperties.ConfigDirectory());
+
+            if(StringUtils.isNotBlank(pathFiles))
+                microserviceProperties.getPhotos().setPath(pathFiles);
+            else
+                microserviceProperties.getPhotos().setPath("./target");
+
+            return microserviceProperties;
         }
 
         @Bean
-        public ProductoService productoService(FilesProperties filesProperties,ProductoDao productoDao){
-            return new ProductoServiceImpl(productoDao,filesProperties);
+        public ProductoService productoService(MicroserviceProperties microserviceProperties, ProductoDao productoDao){
+            return new ProductoServiceImpl(productoDao, microserviceProperties);
         }
 
     }
@@ -44,7 +52,7 @@ public class ProductoServiceImplTest {
     private ProductoDao productoDao;
 
     @Autowired
-    private FilesProperties filesProperties;
+    private MicroserviceProperties microserviceProperties;
 
     @Autowired
     private ProductoService productoService;
@@ -52,13 +60,13 @@ public class ProductoServiceImplTest {
     @BeforeEach
     void resetMocksAndStubs() {
         reset(productoDao);
-        filesProperties.setInPanic(false);
+        microserviceProperties.setInPanic(false);
     }
 
     @Test
     public void sanity() {
         assertThat(productoService).isNotNull();
-        assertThat(filesProperties).isNotNull();
+        assertThat(microserviceProperties).isNotNull();
         assertThat(productoDao).isNotNull();
     }
 
@@ -97,6 +105,8 @@ public class ProductoServiceImplTest {
 
     @Test
     public void findAllWithNameUpperCase_ok(){
+
+        //TODO: Verificar la lógica de negocio
 
         // Preparing data
         Producto p1 =  new Producto();
@@ -145,6 +155,7 @@ public class ProductoServiceImplTest {
     public void findAll_error(){
 
         // Preparing data
+
         // Mocks & Stubs configuration
         when(productoDao.findAll()).thenReturn(Flux.error(new RuntimeException()));
 
@@ -158,8 +169,8 @@ public class ProductoServiceImplTest {
 
         // Validating results
         StepVerifier.create(productoFlux.log())
-
-                .verifyComplete();
+                .expectError(RuntimeException.class)
+                .verify();
     }*/
 
 

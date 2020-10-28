@@ -1,15 +1,12 @@
 package com.example.lab04.handlers;
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.exceptions.UnauthorizedException;
 import com.example.lab04.models.documents.Categoria;
 import com.example.lab04.models.documents.CustomFieldError;
 import com.example.lab04.models.documents.Producto;
 import com.example.lab04.models.services.ProductoService;
 
-//import org.apache.commons.io.FilenameUtils;
-//import com.nimbusds.jwt.JWT;
-//import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -32,7 +29,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
 import java.io.File;
 import java.net.URI;
 import java.text.ParseException;
@@ -42,21 +38,23 @@ import java.util.Date;
 public class ProductoHandler {
 
     private final ProductoService productoService;
-    private final FilesProperties filesProperties;
+    private final MicroserviceProperties microserviceProperties;
     private final Validator validator;
 
     private static final Logger log = LoggerFactory.getLogger(ProductoHandler.class);
 
-    public ProductoHandler(ProductoService productoService, FilesProperties filesProperties, Validator validator) {
+    public ProductoHandler(ProductoService productoService, MicroserviceProperties microserviceProperties, Validator validator) {
         this.productoService = productoService;
-        this.filesProperties = filesProperties;
+        this.microserviceProperties = microserviceProperties;
         this.validator = validator;
     }
 
     public Mono<ServerResponse> list(ServerRequest rq) {
 
         log.debug("list");
-       // int x = 0;
+        // TODO: PMD
+        //int valor = 0;
+
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +76,6 @@ public class ProductoHandler {
     public Mono<ServerResponse> create(ServerRequest rq) {
 
         Mono<Producto> producto = rq.bodyToMono(Producto.class);
-
 
         return producto.flatMap(p -> {
 
@@ -112,10 +109,13 @@ public class ProductoHandler {
                     p.setCreateAt(new Date());
                 }
 
-                //productoService.save(p);
+
+                // TODO: BEHAVIOR
+               //productoService.save(p);
 
                 return productoService.save(p)
-                       /* .map(p1->{
+                        // TODO: OUTPUT DATA
+                        /*.map(p1->{
                             p1.setAppId("001");
                             return p1;
                         })*/
@@ -151,7 +151,7 @@ public class ProductoHandler {
 
         //return ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
 
-        if (filesProperties.isInPanic()) {
+        if (microserviceProperties.isInPanic()) {
             return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS).build();
         }
 
@@ -168,6 +168,14 @@ public class ProductoHandler {
     }
 
 
+    private File getFileTemporary(Producto producto){
+
+        File fileTemporary = new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
+
+        return fileTemporary;
+
+    }
+
     public Mono<ServerResponse> upload(ServerRequest request) {
         String id = request.pathVariable("id");
 
@@ -176,21 +184,11 @@ public class ProductoHandler {
                 .cast(FilePart.class)
                 .flatMap(file -> productoService.findById(id)
                         .flatMap(producto -> {
-
-
-                            producto.setFoto(file.filename()
-                                    .replace(" ", "")
-                                    .replace("\\", "")
-                                    .replace(":", ""));
-
-
-                            //TODO: FIXED 1
-
-                            File fileTemporary = new File(FilenameUtils.getName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto()));
-
-                            //File fileTemporary = new File(this.filesProperties.getPath(),producto.getFoto());
-
-                            return file.transferTo(fileTemporary).then(productoService.save(producto));
+                            producto.setFoto(file.filename());
+                            return file.transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
+                                e.printStackTrace();
+                                return Mono.error(e);
+                            });
 
                         })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId(), "images").build().toUri())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -217,23 +215,21 @@ public class ProductoHandler {
                 .cast(FilePart.class)
                 .flatMap(file -> productoMono
                         .flatMap(producto -> {
-                            producto.setFoto(file.filename()
-                                    .replace(" ", "")
-                                    .replace("\\", "")
-                                    .replace(":", ""));
-
+                            producto.setFoto(file.filename());
                             producto.setCreateAt(new Date());
 
-                            return file.transferTo(new File(FilenameUtils.getName(this.filesProperties.getPath()), FilenameUtils.getName(producto.getFoto())))
-                                    .then(productoService.save(producto));
+                            return file. transferTo(getFileTemporary(producto)).then(productoService.save(producto)).onErrorResume(e->{
+                                e.printStackTrace();
+                                return Mono.error(e);
+                            });
 
-                            /*return file.transferTo(new File(this.filesProperties.getPath(), producto.getFoto()))
-                                    .then(productoService.save(producto));*/
 
-                        })).flatMap(producto -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", producto.getId()).build().toUri())
+
+                        })).flatMap(productoDB -> ServerResponse.created(UriComponentsBuilder.newInstance().pathSegment("productos", productoDB.getId()).build().toUri())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(fromValue(producto)))
+                        .body(fromValue(productoDB)))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
 }
+

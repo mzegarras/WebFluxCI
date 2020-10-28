@@ -16,17 +16,17 @@ import java.util.Date;
 
 @Document(collection = "productos")
 @Data
-//@JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class Producto implements Serializable  {
+public class Producto implements Serializable {
 
     private static final long serialVersionUID = 5504238253021606174L;
 
     private String x;
 
-
     @Id
     private String id;
 
+
+    //TODO: Validar entradas
     @NotEmpty
     private String nombre;
 
@@ -34,7 +34,8 @@ public class Producto implements Serializable  {
     private Double precio;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @EqualsAndHashCode.Exclude private Date createAt;
+    @EqualsAndHashCode.Exclude
+    private Date createAt;
 
     public Producto() {
     }
@@ -44,9 +45,9 @@ public class Producto implements Serializable  {
         this.precio = precio;
     }
 
-    public Producto(String nombre, Double precio,Categoria categoria) {
-        this(nombre,precio);
-        this.categoria=categoria;
+    public Producto(String nombre, Double precio, Categoria categoria) {
+        this(nombre, precio);
+        this.categoria = categoria;
     }
 
 
@@ -74,13 +75,14 @@ public class Producto implements Serializable  {
         this.precio = precio;
     }
 
+    //TODO: Spotbugs
     public Date getCreateAt() {
         //return this.createAt;
         return this.createAt != null ? (Date) createAt.clone() : null;
     }
 
     public void setCreateAt(Date createAt) {
-         //this.createAt=createAt;
+        //this.createAt=createAt;
         this.createAt = createAt != null ? (Date) createAt.clone() : null;
     }
 

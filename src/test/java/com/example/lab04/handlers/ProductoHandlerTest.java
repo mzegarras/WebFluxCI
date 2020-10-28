@@ -1,7 +1,7 @@
 package com.example.lab04.handlers;
 
 
-import com.example.lab04.config.FilesProperties;
+import com.example.lab04.config.MicroserviceProperties;
 import com.example.lab04.config.RouteFunctionConfig;
 import com.example.lab04.exceptions.UnauthorizedException;
 import com.example.lab04.models.documents.Categoria;
@@ -14,12 +14,14 @@ import com.nimbusds.jose.crypto.MACSigner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +33,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -46,10 +47,21 @@ public class ProductoHandlerTest {
 
     public static class TestConfiguration{
         @Bean
-        public FilesProperties filesProperties(){
-            FilesProperties filesProperties = new FilesProperties();
-            filesProperties.setPath("./");
-            return filesProperties;
+        public MicroserviceProperties filesProperties(){
+            MicroserviceProperties microserviceProperties = new MicroserviceProperties();
+            String pathFiles = System.getenv("GITHUB_WORKSPACE");
+            microserviceProperties.setPhotos(new MicroserviceProperties.ConfigDirectory());
+
+           if(StringUtils.isNotBlank(pathFiles))
+               microserviceProperties.getPhotos().setPath(pathFiles);
+           else
+               microserviceProperties.getPhotos().setPath("./target");
+
+
+            microserviceProperties.setJwt(new MicroserviceProperties.JWTConfig());
+            microserviceProperties.getJwt().setKey("12345678901234567890123456789012");
+
+            return microserviceProperties;
         }
     }
 
@@ -60,18 +72,18 @@ public class ProductoHandlerTest {
     private ProductoService productoService;
 
     @Autowired
-    private FilesProperties filesProperties;
+    private MicroserviceProperties microserviceProperties;
 
     @BeforeEach
     void resetMocksAndStubs() {
         reset(productoService);
-        filesProperties.setInPanic(false);
+        microserviceProperties.setInPanic(false);
     }
 
     @Test
     public void sanity() {
         assertThat(client).isNotNull();
-        assertThat(filesProperties).isNotNull();
+        assertThat(microserviceProperties).isNotNull();
     }
 
     @Test
@@ -125,7 +137,7 @@ public class ProductoHandlerTest {
     @Test
     public void delete_byId_InPanic_exception(){
         // Preparing data
-        filesProperties.setInPanic(true);
+        microserviceProperties.setInPanic(true);
 
         // Mocks & Stubs configuration
 
@@ -165,6 +177,8 @@ public class ProductoHandlerTest {
 
     @Test
     public void post_createProductWithCategory_badRequest(){
+
+        //TODO: Validar errores
 
         // Preparing data
         Producto productoBad =  new Producto();
@@ -232,7 +246,6 @@ public class ProductoHandlerTest {
 
     }
     @Test
-    @Disabled
     public void post_uploadImage_created(){
 
         // Preparing data
@@ -254,9 +267,8 @@ public class ProductoHandlerTest {
 
 
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("red-traffic-sign-to-print.jpg").getFile());
-        bodyBuilder.part("file", new FileSystemResource(file));
+        Resource logo = new ClassPathResource("red-traffic-sign-to-print.jpg");
+        bodyBuilder.part("file",logo);
 
         // Mocks & Stubs configuration
         when(productoService.findById("abc123")).thenReturn(Mono.just(producto));
@@ -336,6 +348,7 @@ public class ProductoHandlerTest {
     public void post_createProductWithApp_created() throws JOSEException {
 
         // Preparing data
+        //TODO: DATA claro
         JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256),
                 new Payload("{\"scope\":[\"token:application\",\"application:app2\"]," +
                         "\"exp\":1556040529," +
@@ -343,7 +356,7 @@ public class ProductoHandlerTest {
                         "\"jti\":\"1\"," +
                         "\"client_id\":\"app2\"}"));
 
-        jwsObject.sign(new MACSigner("12345678901234567890123456789012"));
+        jwsObject.sign(new MACSigner(microserviceProperties.getJwt().getKey()));
         String JWT = jwsObject.serialize();
 
         Categoria categoria = new Categoria();
@@ -606,7 +619,6 @@ public class ProductoHandlerTest {
 
 
     @Test
-    @Disabled
     public void post_createProductv2_created(){
 
         // Preparing data
@@ -626,14 +638,14 @@ public class ProductoHandlerTest {
         productoToSave.setFoto(fileName);
 
         MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("red-traffic-sign-to-print.jpg").getFile());
-        bodyBuilder.part("file", new FileSystemResource(file));
+
+
+        Resource logo = new ClassPathResource("red-traffic-sign-to-print.jpg");
+        bodyBuilder.part("file", logo);
         bodyBuilder.part("nombre","producto1");
         bodyBuilder.part("precio","1.5");
         bodyBuilder.part("categoria.id","1");
         bodyBuilder.part("categoria.nombre","Categoria1");
-
 
         Producto productoSaved =  new Producto();
         productoSaved.setId("abc123");

@@ -34,6 +34,12 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.Date;
 
+// TODO: PMD 2
+//import java.util.List;
+
+// TODO: PMD 3
+//import java.applet.*;
+
 @Component
 public class ProductoHandler {
 
@@ -52,7 +58,7 @@ public class ProductoHandler {
     public Mono<ServerResponse> list(ServerRequest rq) {
 
         log.debug("list");
-        // TODO: PMD
+        // TODO: PMD 1
         //int valor = 0;
 
 

@@ -148,11 +148,12 @@ public class ProductoServiceImplTest {
                 .verifyComplete();
     }
 
-    /*
+
     @Test
     public void findAll_error(){
 
         // Preparing data
+
         // Mocks & Stubs configuration
         when(productoDao.findAll()).thenReturn(Flux.error(new RuntimeException()));
 
@@ -166,9 +167,9 @@ public class ProductoServiceImplTest {
 
         // Validating results
         StepVerifier.create(productoFlux.log())
-
-                .verifyComplete();
-    }*/
+                .expectError(RuntimeException.class)
+                .verify();
+    }
 
 
 }

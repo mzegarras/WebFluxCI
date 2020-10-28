@@ -1,5 +1,10 @@
 microservice:
-  path: /usr/local/Cursos/WebFlux/lab04/files
+  inPanic: false
+  photos:
+    path: /usr/local/Cursos/WebFlux/lab04/files
+  jwt:
+    key:
+
 spring:
   data:
     mongodb:

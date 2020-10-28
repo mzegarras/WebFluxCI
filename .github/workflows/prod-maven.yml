@@ -34,7 +34,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.4
-
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Run unit tests
         run: mvn -B verify
       - name: Publish Unit Test Results

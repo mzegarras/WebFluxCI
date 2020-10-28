@@ -639,17 +639,6 @@ public class ProductoHandlerTest {
         bodyBuilder.part("categoria.id","1");
         bodyBuilder.part("categoria.nombre","Categoria1");
 
-
- /*   MultipartFile multipartFile = new MockMultipartFile("sourceFile.tmp", "Hello World".getBytes());
-
-    File file = new File("src/main/resources/targetFile.tmp");
-
-multipartFile.transferTo(file);
-
-        assertThat(FileUtils.readFileToString(new File("src/main/resources/targetFile.tmp"), "UTF-8"))
-        .isEqualTo("Hello World");*/
-
-
         Producto productoSaved =  new Producto();
         productoSaved.setId("abc123");
         productoSaved.setNombre("producto1");

@@ -163,12 +163,15 @@ public class ProductoHandler {
     }
 
 
+    //@SuppressFBWarnings("PATH_TRAVERSAL_IN")
     private File getFileTemporary(Producto producto){
 
 
-        String fullPath = FilenameUtils.getPath(this.filesProperties.getPath());
-        String fileName = FilenameUtils.getName(producto.getFoto());
-        File fileTemporary = new File( fullPath,fileName);
+        String fullPath = FilenameUtils.getFullPath(this.filesProperties.getPath());
+        String fileName =FilenameUtils.concat(fullPath , FilenameUtils.getName(producto.getFoto()));
+        File fileTemporary = new File( FilenameUtils.normalize(fileName));
+
+
         return fileTemporary;
 
     }

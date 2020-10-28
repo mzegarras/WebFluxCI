@@ -97,8 +97,18 @@
 			<version>${nimbus-jose-jwt.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>1.0</version>
+		</dependency>
 
-
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-annotations</artifactId>
+			<version>4.1.4</version>
+			<scope>provided</scope>
+		</dependency>
 
 
 	</dependencies>
@@ -202,6 +212,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
 					<threshold>low</threshold>
 					<plugins>
 						<plugin>

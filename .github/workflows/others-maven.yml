@@ -10,7 +10,7 @@ jobs:
   test:
     name: Run unit tests
     runs-on: ubuntu-18.04
-
+    if: false # always skip job
     steps:
       - uses: actions/checkout@v2
       - uses: falti/dotenv-action@v0.2.5
@@ -65,3 +65,16 @@ jobs:
           fail_ci_if_error: false
       - name: Build Docker image
         run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
+  deploy:
+    name: Deploy dev
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: falti/dotenv-action@v0.2.5
+        id: dotenv
+        with:
+          path: ./config/dev.env
+      - name: Settings
+        run: echo PROJECT_ID - ${{ steps.dotenv.outputs.project_id }}!

@@ -67,7 +67,7 @@ jobs:
         run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
   deploy:
     name: Deploy dev
-    needs: build
+    #needs: build
     runs-on: ubuntu-18.04
 
     steps:

@@ -71,10 +71,18 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - uses: falti/dotenv-action@v0.2.5
         id: dotenv
         with:
           path: ./config/dev.env
       - name: Settings
         run: echo PROJECT_ID - ${{ secrets.PROJECT_ID}} - ${{ steps.dotenv.outputs.GKE_CLUSTER}} - ${{ steps.dotenv.outputs.GKE_ZONE}}!
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GCP_SA }}
+          project_id: ${{ secrets.PROJECT_ID }}

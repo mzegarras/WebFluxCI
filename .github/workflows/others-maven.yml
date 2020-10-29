@@ -77,4 +77,4 @@ jobs:
         with:
           path: ./config/dev.env
       - name: Settings
-        run: echo PROJECT_ID - ${{ steps.dotenv.outputs.project_id }}!
+        run: echo PROJECT_ID - ${{ steps.dotenv.outputs.PROJECT_ID}} - ${{ steps.dotenv.outputs.GKE_CLUSTER}} - ${{ steps.dotenv.outputs.GKE_ZONE}}!

@@ -106,7 +106,7 @@ public class ProductoServiceImplTest {
     @Test
     public void findAllWithNameUpperCase_ok(){
 
-        //TODO: Verificar la lógica de negocio
+        //TODO: YP - Verificar la lógica de negocio
 
         // Preparing data
         Producto p1 =  new Producto();

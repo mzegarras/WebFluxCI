@@ -34,6 +34,12 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.Date;
 
+// TODO: PMD 2
+//import java.util.List;
+
+// TODO: PMD 3
+//import java.applet.*;
+
 @Component
 public class ProductoHandler {
 
@@ -52,7 +58,7 @@ public class ProductoHandler {
     public Mono<ServerResponse> list(ServerRequest rq) {
 
         log.debug("list");
-        // TODO: PMD
+        // TODO: PMD 1
         //int valor = 0;
 
 
@@ -110,11 +116,11 @@ public class ProductoHandler {
                 }
 
 
-                // TODO: BEHAVIOR
+                // TODO: YP - BEHAVIOR
                //productoService.save(p);
 
                 return productoService.save(p)
-                        // TODO: OUTPUT DATA
+                        // TODO: YP OUTPUT DATA
                         /*.map(p1->{
                             p1.setAppId("001");
                             return p1;
@@ -170,9 +176,7 @@ public class ProductoHandler {
 
     private File getFileTemporary(Producto producto){
 
-        File fileTemporary = new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
-
-        return fileTemporary;
+        return new File( this.microserviceProperties.getPhotos().getPath(),FilenameUtils.normalize(FilenameUtils.getName(producto.getFoto())));
 
     }
 

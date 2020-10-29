@@ -101,4 +101,4 @@ jobs:
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
         run: |-
-          kubectl get pods --all
+          kubectl get pods

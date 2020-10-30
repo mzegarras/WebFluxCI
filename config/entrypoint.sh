@@ -10,4 +10,4 @@ do
    sleep 1
 done
 
-exit 0
+exit 1

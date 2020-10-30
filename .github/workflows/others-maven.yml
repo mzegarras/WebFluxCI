@@ -66,4 +66,4 @@ jobs:
       - name: Build Docker image
         run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
       - name: Test
-        run: docker-compose -f ./config/docker-compose.yaml up 
+        run: docker-compose -f ./config/docker-compose.yaml up

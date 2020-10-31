@@ -74,7 +74,6 @@ public class ProductoHandlerYPTest {
 
 
     @Test
-
     public void post_createProduct_created(){
 
         // Preparing data

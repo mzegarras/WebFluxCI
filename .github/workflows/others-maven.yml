@@ -65,7 +65,7 @@ jobs:
           fail_ci_if_error: false
       - name: Build Docker image
         run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
-        - name: Tag Docker image
+      - name: Tag Docker image
         run: docker tag -t ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest msproductos:latest 
       - name: Test
         run: |

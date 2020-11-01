@@ -15,3 +15,16 @@ Feature: Fruit list
         {"name": "strawberry", "color": "red"}
       ]
       """
+  Scenario: List fruit (original1)
+    Given the system knows about the following fruit:
+      | name       | color  |
+      | banana     | yellow |
+      | strawberry | red    |
+    When the client requests GET /fruits
+    Then the response should be JSON:
+      """
+      [
+        {"name": "banana", "color": "yellow1"},
+        {"name": "strawberry", "color": "red1"}
+      ]
+      """      

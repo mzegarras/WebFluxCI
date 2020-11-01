@@ -18,9 +18,9 @@ services:
       - 8081:8080
   test:
     image: mzegarra/csonictest
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile
     volumes:
       - ./features:/usr/src/app/features
     depends_on:

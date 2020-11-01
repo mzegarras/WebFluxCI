@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "pwd123456!"
+      MONGO_INITDB_DATABASE: shop
+  microservice:
+    image: msproductos:latest
+    environment:
+      spring.config.location: "/application.yaml"
+    volumes:
+      - ./application.yaml:/application.yaml
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8080
+  test:
+    image: mzegarra/csonictest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./features:/usr/src/app/features
+    depends_on:
+      - mongo
+      - microservice
+      

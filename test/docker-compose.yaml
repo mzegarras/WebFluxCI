@@ -14,13 +14,8 @@ services:
       - ./application.yaml:/application.yaml
     depends_on:
       - mongo
-#    ports:
-#      - 8081:8080
   test:
     image: mzegarra/csonictest
-    # build:
-    #   context: .
-    #   dockerfile: ./Dockerfile
     volumes:
       - ./features:/usr/src/app/features
       - ./report:/usr/src/app/report

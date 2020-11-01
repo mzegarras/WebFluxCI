@@ -71,5 +71,7 @@ jobs:
         run: |
          docker-compose -f ./test/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
          docker-compose -f ./config/docker-compose.yaml down
-
-##docker-compose -f ./config/docker-compose.yaml build &&         
+      - uses: actions/upload-artifact@v2
+        name: cucumber-report
+        with:
+          path: ./test/report/report.html

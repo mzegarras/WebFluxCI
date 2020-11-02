@@ -26,11 +26,14 @@ Given('the system knows about the following fruit:') do |table|
 	#pending
 end	
 
+When('the client create product {string} and price {float}') do |string, float|
+		
+	@response_post = @req.post("productos", 
+			{"nombre": string,"precio": float,"createAt": "2020-10-01T11:57:17.837+00:00","categoria": {"id": "5f75c41d4fccd7044d16bc51","nombre": "TVs"}}.to_json)
 
-# // Business logic execution
-# Flux<Producto> productoFlux = client.get().uri("/productos")
-# 		.exchange()
-# 		.expectStatus().isOk()
-# 		.expectHeader().contentType(MediaType.APPLICATION_JSON)
-# 		.returnResult(Producto.class)
-# 		.getResponseBody();
+	print @response_post
+end
+
+Then('the product\'s response should be JSON:') do |doc_string|
+	
+end	

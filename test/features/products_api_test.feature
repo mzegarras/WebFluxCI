@@ -21,9 +21,3 @@ Feature: Fruit list
       """
         {"name": "strawberry", "color": "red1"}
       """
-  Scenario: Create product 2
-    When the client edit product "bbb" and price 3
-    Then the product's response should be JSON:
-      """
-        {"name": "strawberry", "color": "red1"}
-      """

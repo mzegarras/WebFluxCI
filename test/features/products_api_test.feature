@@ -20,4 +20,10 @@ Feature: Fruit list
     Then the product's response should be JSON:
       """
         {"name": "strawberry", "color": "red1"}
-      """      
+      """
+  Scenario: Create product 2
+    When the client create product "bbb" and price 3
+    Then the product's response should be JSON:
+      """
+        {"name": "strawberry", "color": "red1"}
+      """

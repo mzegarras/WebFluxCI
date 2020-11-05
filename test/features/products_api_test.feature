@@ -21,3 +21,9 @@ Feature: Fruit list
       """
         {"name": "strawberry", "color": "red1"}
       """
+  Scenario: Create product
+    When the client delete product "aaaa" and price 2.8
+    Then the product's response should be JSON:
+      """
+        {"name": "strawberry", "color": "red1"}
+      """

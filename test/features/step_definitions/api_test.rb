@@ -36,4 +36,8 @@ end
 
 Then('the product\'s response should be JSON:') do |doc_string|
 	
-end	
+end
+
+When('the client delete product {string} and price {float}') do |string, float|
+    pending
+end

@@ -1,7 +1,7 @@
 microservice:
   inPanic: false
   photos:
-    path: /usr/local/Cursos/WebFlux/lab04/files
+    path: ./files
   jwt:
     key:
 

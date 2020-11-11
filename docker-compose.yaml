@@ -14,7 +14,7 @@ services:
     environment:
       spring.config.location: "/application.yaml"
     volumes:
-      - ./config/application-test.yaml:/application.yaml
+      - ./test/application.yaml:/application.yaml
     depends_on:
       - mongo
   test:

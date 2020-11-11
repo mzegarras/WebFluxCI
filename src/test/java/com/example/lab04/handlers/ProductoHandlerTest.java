@@ -60,7 +60,7 @@ public class ProductoHandlerTest {
 
 
             microserviceProperties.setJwt(new MicroserviceProperties.JWTConfig());
-            microserviceProperties.getJwt().setKey("12345678901234567890123456789012");
+            microserviceProperties.getJwt().setKey("secret01234567890ABCDEFGHIJKLMNO");
 
             return microserviceProperties;
         }
@@ -249,6 +249,7 @@ public class ProductoHandlerTest {
 
     }
     @Test
+    @Disabled
     public void post_uploadImage_created(){
 
         // Preparing data
@@ -622,6 +623,7 @@ public class ProductoHandlerTest {
 
 
     @Test
+    @Disabled
     public void post_createProductv2_created(){
 
         // Preparing data

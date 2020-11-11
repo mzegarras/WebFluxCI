@@ -1,0 +1,16 @@
+microservice:
+  inPanic: false
+  photos:
+    path: /usr/local/Cursos/WebFlux/lab04/files
+  jwt:
+    key:
+
+spring:
+  data:
+    mongodb:
+      host: mongo
+      username: root
+      password: pwd123456!
+      port: 27017
+      database: shop
+      authentication-database: admin

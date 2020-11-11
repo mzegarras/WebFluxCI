@@ -8,10 +8,13 @@ services:
       MONGO_INITDB_DATABASE: shop
   microservice:
     image: msproductos:latest
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile
     environment:
       spring.config.location: "/application.yaml"
     volumes:
-      - ./application.yaml:/application.yaml
+      - ./config/application-test.yaml:/application.yaml
     depends_on:
       - mongo
   test:

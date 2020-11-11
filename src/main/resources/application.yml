@@ -3,7 +3,7 @@ microservice:
   photos:
     path: /usr/local/Cursos/WebFlux/lab04/files
   jwt:
-    key:
+    key: abc1234234
 
 spring:
   data:

@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "pwd123456!"
+      MONGO_INITDB_DATABASE: shop
+  microservice:
+    image: msproductos:latest
+    build:
+      context: ..
+      dockerfile: ./src/main/docker/Dockerfile
+    environment:
+      spring.config.location: "/application.yaml"
+    volumes:
+      - ./application.yaml:/application.yaml
+    depends_on:
+      - mongo
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  test:
+    image: mzegarra/csonictest
+    volumes:
+      - ./features:/usr/src/app/features
+      - ./report:/usr/src/app/report
+    depends_on:
+      microservice:
+        condition: service_healthy
+#    depends_on:
+#      - mongo
+#      - microservice:
+#          condition: service_healthy
+      

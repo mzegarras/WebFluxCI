@@ -1,14 +1,14 @@
 microservice:
   inPanic: false
   photos:
-    path: ./files
+    path: /usr/local/Cursos/WebFlux/lab04/files
   jwt:
     key:
 
 spring:
   data:
     mongodb:
-      host: mongo
+      host: localhost
       username: root
       password: pwd123456!
       port: 27017

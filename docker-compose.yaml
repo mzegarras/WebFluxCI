@@ -6,23 +6,17 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "pwd123456!"
       MONGO_INITDB_DATABASE: shop
+    ports:
+      - 27017:27017
   microservice:
     image: msproductos:latest
     build:
       context: .
-      dockerfile: src/main/docker/Dockerfile
-    environment:
-      spring.config.location: "/application.yaml"
-    volumes:
-      - ./test/application.yaml:/application.yaml
-    depends_on:
-      - mongo
-  test:
-    image: mzegarra/csonictest
-    volumes:
-      - ./features:/usr/src/app/features
-      - ./report:/usr/src/app/report
-    depends_on:
-      - mongo
-      - microservice
-      
+      dockerfile: ./src/main/docker/Dockerfile
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: [ "CMD", "curl", "-I", "http://localhost:8080/actuator/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10

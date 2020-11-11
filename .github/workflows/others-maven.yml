@@ -71,7 +71,7 @@ jobs:
         run: |
          docker-compose -f ./test/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
          docker-compose -f ./test/docker-compose.yaml down
-         docker-compose -f ./test/docker-compose.yaml logs microservice)
+         docker-compose -f ./test/docker-compose.yaml logs microservice
          docker inspect $(docker-compose -f ./test/docker-compose.yaml ps -q microservice)
       - uses: actions/upload-artifact@v2
         with:

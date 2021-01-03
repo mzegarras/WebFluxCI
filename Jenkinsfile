@@ -45,8 +45,13 @@ pipeline {
             agent any
             steps {
                
-                copyArtifacts filter: '*.jar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}'), target: 'target'
-  
+                copyArtifacts filter: 'target/*.jar', 
+                              fingerprintArtifacts: true, 
+                              projectName: '${JOB_NAME}', 
+                              flatten: true,
+                              selector: specific('${BUILD_NUMBER}'),
+                              target: 'target'
+
                 sh 'ls -lta '
                 sh 'docker build --file ./src/main/docker/Dockerfile --tag demo:latest .'
                 sh 'docker ps'

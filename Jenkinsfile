@@ -18,8 +18,6 @@ pipeline {
             
             steps {
                 sh 'mvn -B verify'
-                //archive "target/*.jar"
-                //stash includes: "target/*.jar", name: "jar"
             }
             post{
                 always{
@@ -35,9 +33,7 @@ pipeline {
                     recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
                 }
                 success {
-
                     archiveArtifacts artifacts: 'target/lab04-0.0.1-SNAPSHOT.jar', fingerprint: true, onlyIfSuccessful: true
-                    //archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
                 }
             }
         }

@@ -24,7 +24,8 @@ pipeline {
                     
                 }
                 success{
-                    archiveArtifacts  artifacts: './target/*.jar', fingerprint: true
+                    archiveArtifacts  artifacts: '${env.WORKSPACE}/target/lab04-0.0.1-SNAPSHOT.jar', fingerprint: true
+                    
                 }
             }
         }

@@ -47,7 +47,7 @@ pipeline {
                 copyArtifacts filter: 'lab04-0.0.1-SNAPSHOT.jar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
   
                 sh 'ls -lta '
-                sh 'docker build --file /src/main/docker/Dockerfile --tag demo:latest .'
+                sh 'docker build --file ./src/main/docker/Dockerfile --tag demo:latest .'
                 sh 'docker ps'
                  //run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
 

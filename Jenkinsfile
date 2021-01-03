@@ -27,8 +27,8 @@ pipeline {
                 }
                 success {
                     sh 'ls -lta ./target/'
-                    archiveArtifacts artifacts: '*.jar', fingerprint: true
-                    archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
+                    archiveArtifacts artifacts: 'build/*.jar', fingerprint: true, onlyIfSuccessful: true
+                    //archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
                 }
             }
         }

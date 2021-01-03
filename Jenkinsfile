@@ -15,7 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn -B verify'
-                sh 'ls -lta ./target/'
+                archive "target/*.jar"
+                stash includes: "target/*.jar", name: "jar"
             }
             post{
                 always{
@@ -23,9 +24,9 @@ pipeline {
                     junit '**/surefire-reports/*.xml'
                     
                 }
-                success {
+                /*success {
                     archiveArtifacts artifacts: './target/*.jar', fingerprint: true
-                }
+                }*/
             }
         }
          stage('Docker') {

@@ -17,6 +17,12 @@ pipeline {
             }
             
             steps {
+               script {
+                  def props = readProperties file: 'config/dev.env'
+                  env.APP = props.APP
+                  env.APP_MODULE = props.APP_MODULE 
+              }
+                sh "echo The weather is $WEATHER"
                 sh 'mvn -B verify'
             }
             post{
@@ -40,6 +46,7 @@ pipeline {
          stage('Docker') {
             agent any
             steps {
+                
                
                 copyArtifacts filter: 'target/*.jar', 
                               fingerprintArtifacts: true, 

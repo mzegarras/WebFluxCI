@@ -19,7 +19,7 @@ pipeline {
             post{
                 always{
                     //junit './target/surefire-reports/*xml'
-                    junit '**/failsafe-reports/*.xml'
+                    junit '**/surefire-reports/*.xml'
                 }
             }
         }

@@ -15,8 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn -B verify'
-                archive "target/*.jar"
-                stash includes: "target/*.jar", name: "jar"
+                //archive "target/*.jar"
+                //stash includes: "target/*.jar", name: "jar"
             }
             post{
                 always{
@@ -26,7 +26,9 @@ pipeline {
                     //step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
                 }
                 success {
-                    archiveArtifacts artifacts: '/target/*.jar', fingerprint: true
+                    sh 'ls -lta ./target/'
+                    archiveArtifacts artifacts: '*.jar', fingerprint: true
+                    archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
                 }
             }
         }

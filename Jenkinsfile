@@ -11,11 +11,6 @@ pipeline {
                 echo 'Building..'
                 sh 'ls -lta ./target/'
             }
-            post{
-                success{
-                    archiveArtifacts  artifacts: './target/*.jar', fingerprint: true
-                }
-            }
         }
         stage('Test') {
             steps {
@@ -25,6 +20,9 @@ pipeline {
                 always{
                     //junit './target/surefire-reports/*xml'
                     junit '**/surefire-reports/*.xml'
+                }
+                success{
+                    archiveArtifacts  artifacts: './target/*.jar', fingerprint: true
                 }
             }
         }

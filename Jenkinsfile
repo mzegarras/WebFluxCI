@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'ls -lta'
+                sh 'ls -lta ./target/'
             }
         }
         stage('Test') {

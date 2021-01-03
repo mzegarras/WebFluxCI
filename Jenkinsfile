@@ -40,6 +40,7 @@ pipeline {
             }
         }
          stage('Docker') {
+            agent any
             steps {
                 sh 'docker build --file /src/main/docker/Dockerfile --tag demo:latest .'
                 sh 'docker ps'

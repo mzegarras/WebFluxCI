@@ -10,6 +10,7 @@ pipeline {
             }
             steps {
                 echo 'Building..'
+                sh 'ls -lta'
             }
         }
         stage('Test') {

@@ -24,11 +24,12 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
                     jacoco execPattern: 'target/*.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*'
                     
-                    recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
                     
-                    //pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
-                    //step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml', unstableTotalAll:'0'])
-                    //step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
+                    recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+                    recordIssues enabledForFailure: true, tool: checkStyle()
+                    recordIssues enabledForFailure: true, tool: spotBugs()
+                    recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
+                    recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
                 }
                 success {
 

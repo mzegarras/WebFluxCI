@@ -21,8 +21,9 @@ pipeline {
             post{
                 always{
                     //junit './target/surefire-reports/*xml'
-                    junit '**/surefire-reports/*.xml'
-                    
+                    junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+                     step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml', unstableTotalAll:'0'])
+                     step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
                 }
                 /*success {
                     archiveArtifacts artifacts: './target/*.jar', fingerprint: true

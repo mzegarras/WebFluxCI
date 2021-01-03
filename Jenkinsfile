@@ -15,11 +15,13 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn -B verify'
+                sh 'ls -lta ./target/'
             }
             post{
                 always{
                     //junit './target/surefire-reports/*xml'
                     junit '**/surefire-reports/*.xml'
+                    
                 }
                 success{
                     archiveArtifacts  artifacts: './target/*.jar', fingerprint: true

@@ -24,11 +24,7 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
                     jacoco execPattern: 'target/*.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*'
                     
-                    step([
-                      $class         : 'FindBugsPublisher',
-                      pattern        : 'target/reports/findbugs/*.xml',
-                      canRunOnFailed : true
-                  ])
+                    
                     
                     //pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
                     //step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml', unstableTotalAll:'0'])

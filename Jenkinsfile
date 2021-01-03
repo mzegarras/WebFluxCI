@@ -23,8 +23,11 @@ pipeline {
                     //junit './target/surefire-reports/*xml'
                     junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
                     jacoco execPattern: 'target/*.exec', classPattern: 'target/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*'
-                    pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
                     
+                    def pmd = scanForIssues tool: [$class: 'Pmd'], pattern: '**/target/pmd.xml'
+                    publishIssues issues:[pmd]
+                    
+                    //pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
                     //step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml', unstableTotalAll:'0'])
                     //step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
                 }

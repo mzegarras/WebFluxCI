@@ -17,12 +17,6 @@ pipeline {
             }
             
             steps {
-               script {
-                  def props = readProperties file: 'config/dev.env'
-                  env.APP = props.APP
-                  env.APP_MODULE = props.APP_MODULE 
-              }
-                sh "echo The weather is $APP-$APP_MODULE"
                 sh 'mvn -B verify'
             }
             post{
@@ -47,6 +41,13 @@ pipeline {
             agent any
             steps {
                 
+                script {
+                  def props = readProperties file: 'config/dev.env'
+                  env.APP = props.APP
+                  env.APP_MODULE = props.APP_MODULE 
+                  env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
+              }
+                sh "echo  $DOCKER_REPOSITORY/$APP-$APP_MODULE"
                
                 copyArtifacts filter: 'target/*.jar', 
                               fingerprintArtifacts: true, 
@@ -54,9 +55,9 @@ pipeline {
                               flatten: true,
                               selector: specific('${BUILD_NUMBER}'),
                               target: 'target'
-
+               
                 sh 'ls -lta '
-                sh 'docker build --file ./src/main/docker/Dockerfile --tag demo:latest .'
+                sh 'docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY:$APP-$APP_MODULE:latest .'
                 sh 'docker ps'
                  //run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .
 

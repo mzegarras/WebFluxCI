@@ -16,6 +16,11 @@ pipeline {
             steps {
                 sh 'mvn -B verify'
             }
+            post{
+                always{
+                    junit ./target/surefire-reports/*xml
+                }
+            }
         }
          stage('Docker') {
             steps {

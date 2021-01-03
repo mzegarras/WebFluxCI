@@ -4,12 +4,13 @@ pipeline {
    agent none
    
     stages {
+       /*
         stage('Build') {
             steps {
                 echo 'Building..'
                 sh 'ls -lta ./target/'
             }
-        }
+        }*/
         stage('Test') {
             agent {
                 docker { image 'maven:3.6.3-openjdk-11-slim' }
@@ -49,10 +50,11 @@ pipeline {
 
             }
         }
+       /*
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
             }
-        }
+        }*/
     }
 }

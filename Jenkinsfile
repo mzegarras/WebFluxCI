@@ -44,7 +44,19 @@ pipeline {
          stage('Docker') {
             agent any
             steps {
-                copyArtifacts filter: 'lab04-0.0.1-SNAPSHOT.jar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
+                  
+                copyArtifacts('upstream') {
+                        includePatterns('*.jar')
+                        targetDirectory('files')
+                        flatten()
+                        optional()
+                        buildSelector {
+                            latestSuccessful(true)
+                        }
+                    }
+                }
+            
+                //copyArtifacts filter: 'lab04-0.0.1-SNAPSHOT.jar', fingerprintArtifacts: true, projectName: '${JOB_NAME}', selector: specific('${BUILD_NUMBER}')
   
                 sh 'ls -lta '
                 sh 'docker build --file ./src/main/docker/Dockerfile --tag demo:latest .'

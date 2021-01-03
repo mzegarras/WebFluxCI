@@ -22,7 +22,7 @@ pipeline {
                   env.APP = props.APP
                   env.APP_MODULE = props.APP_MODULE 
               }
-                sh "echo The weather is $WEATHER"
+                sh "echo The weather is $APP-$APP_MODULE"
                 sh 'mvn -B verify'
             }
             post{

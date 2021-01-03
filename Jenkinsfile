@@ -26,8 +26,8 @@ pipeline {
                     //step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
                 }
                 success {
-                    sh 'ls -lta ./target/'
-                    archiveArtifacts artifacts: 'build/*.jar', fingerprint: true, onlyIfSuccessful: true
+
+                    archiveArtifacts artifacts: 'target/lab04-0.0.1-SNAPSHOT.jar', fingerprint: true, onlyIfSuccessful: true
                     //archiveArtifacts artifacts: 'generatedFile.txt', onlyIfSuccessful: true
                 }
             }

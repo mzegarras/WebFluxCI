@@ -44,6 +44,7 @@ pipeline {
          stage('Docker') {
             agent any
             steps {
+                sh 'ls -lta '
                 sh 'docker build --file /src/main/docker/Dockerfile --tag demo:latest .'
                 sh 'docker ps'
                  //run: docker build --file ./src/main/docker/Dockerfile --tag ${{ steps.dotenv.outputs.DOCKER_REPOSITORY}}/${{ steps.dotenv.outputs.APP}}-${{ steps.dotenv.outputs.APP_MODULE}}:latest .

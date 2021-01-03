@@ -11,6 +11,11 @@ pipeline {
                 echo 'Building..'
                 sh 'ls -lta ./target/'
             }
+            post{
+                success{
+                    archiveArtifacts './target/*.jar', fingerprint: true
+                }
+            }
         }
         stage('Test') {
             steps {

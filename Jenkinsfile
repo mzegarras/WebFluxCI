@@ -1,9 +1,6 @@
 
 pipeline {
-    // Cualquier agente
-    agent {
-                docker { image 'maven:3.6.3-openjdk-11-slim' }
-            }
+   
 
     stages {
         stage('Build') {
@@ -13,6 +10,10 @@ pipeline {
             }
         }
         stage('Test') {
+            agent {
+                docker { image 'maven:3.6.3-openjdk-11-slim' }
+            }
+            
             steps {
                 sh 'mvn -B verify'
                 //archive "target/*.jar"

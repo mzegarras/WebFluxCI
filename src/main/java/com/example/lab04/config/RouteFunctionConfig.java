@@ -14,6 +14,7 @@ public class RouteFunctionConfig {
 
     @Bean
     public RouterFunction<ServerResponse> routes(ProductoHandler handler){
+        //TODO: Cambiar URL
         return route(GET("/productos").or(GET("/apis/productos")),handler::list)
                 //.andRoute(GET("/productos/{id}").and(contentType(MediaType.APPLICATION_JSON)),handler::getById)
                 .andRoute(GET("/productos/{id}"),handler::getById)

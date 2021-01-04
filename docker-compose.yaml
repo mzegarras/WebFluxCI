@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "pwd123456!"
+      MONGO_INITDB_DATABASE: shop
+    ports:
+      - 27017:27017
+  microservice:
+    image: msproductos:latest
+    build:
+      context: .
+      dockerfile: ./src/main/docker/Dockerfile
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: [ "CMD", "curl", "-I", "http://localhost:8080/actuator/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10

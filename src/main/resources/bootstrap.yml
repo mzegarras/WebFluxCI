@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: box-accounts
+  cloud:
+    config:
+      uri: ${SERVER_CONFIG_URL:""}
+      fail-fast: ${SERVER_CONFIG_FAIL_FAST:false}
+      enabled: ${SERVER_CONFIG_ENABLED:false}
+      retry:
+        initialInterval: ${SERVER_CONFIG_FAIL_INITIAL_INTERVAL:0}
+        multiplier: ${SERVER_CONFIG_FAIL_MULTIPLIER:1.1}
+        maxInterval: ${SERVER_CONFIG_FAIL_MAXINTERVAL:1}
+        maxAttempts: ${SERVER_CONFIG_FAIL_MAXATTEMPS:1}
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: health,info

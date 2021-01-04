@@ -135,6 +135,7 @@
 					<exclude>**/application.yml</exclude>
 				</excludes>
 			</resource>
+
 		</resources>
 		<plugins>
 

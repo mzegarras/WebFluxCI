@@ -59,11 +59,11 @@ pipeline {
                 sh 'ls -lta '
                 sh 'docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest .'
 
-                sh '''
+                /*sh '''
                 docker-compose -f ./test/docker-compose.yaml build &&
                 docker-compose -f ./test/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
                 docker-compose -f ./test/docker-compose.yaml down
-                '''
+                '''*/
               /*  #sh  'docker-compose -f ./config/docker-compose.yaml build &&
 #          docker-compose -f ./config/docker-compose.yaml build &&
 #          docker-compose -f ./config/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&

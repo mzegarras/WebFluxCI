@@ -352,6 +352,7 @@ public class ProductoHandlerTest {
 
     }
 
+    @Disabled
     @Test
     public void post_createProductWithApp_created() throws JOSEException {
 

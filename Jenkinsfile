@@ -73,9 +73,10 @@ pipeline {
                               env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
                             }
 
-                          sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+                          sh 'docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}'
                           sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER}'
                           sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
+                          sh 'docker logout'
 
                     }
                 }

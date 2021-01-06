@@ -19,6 +19,7 @@ pipeline {
             steps {
                 sh 'mvn -B verify'
             }
+
             post{
                 always{
                     //junit './target/surefire-reports/*xml'
@@ -47,6 +48,7 @@ pipeline {
                   env.APP_MODULE = props.APP_MODULE 
                   env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
                 }
+
                 sh "echo  $DOCKER_REPOSITORY/$APP-$APP_MODULE"
                
                 copyArtifacts filter: 'target/*.jar', 
@@ -60,6 +62,7 @@ pipeline {
                     docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest .
                   '''
             }
+        }
 
       stage('Docker push') {
             agent any

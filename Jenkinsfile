@@ -60,7 +60,7 @@ pipeline {
                     docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest .
                   '''
             }
-    }
+
       stage('Docker push') {
             agent any
             steps {

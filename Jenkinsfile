@@ -53,6 +53,7 @@ pipeline {
                               flatten: true,
                               selector: specific('${BUILD_NUMBER}'),
                               target: 'target';
+                sh "docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest ."
             }
         }
 

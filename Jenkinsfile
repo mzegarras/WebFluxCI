@@ -53,7 +53,8 @@ pipeline {
                               flatten: true,
                               selector: specific('${BUILD_NUMBER}'),
                               target: 'target';
-                sh "docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest ."
+                sh "docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER} ."
+                sh "docker tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER}  $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest"
             }
         }
 
@@ -71,6 +72,7 @@ pipeline {
 
                         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                                   sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                                  sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER}'
                                   sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
                                 }
 

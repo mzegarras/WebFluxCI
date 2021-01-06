@@ -61,6 +61,9 @@ pipeline {
 
         stage('Docker push') {
                     agent any
+                    environment {
+                            DOCKER_HUB_CREDENTIALS = credentials('dockerhub')
+                        }
                     steps {
 
                         script {
@@ -70,11 +73,9 @@ pipeline {
                               env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
                             }
 
-                        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                                  sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER}'
-                                  sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
-                                }
+                          sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+                          sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:${BUILD_NUMBER}'
+                          sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
 
                     }
                 }

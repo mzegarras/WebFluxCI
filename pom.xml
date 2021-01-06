@@ -199,6 +199,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<excludeFilterFile>config/spotbugs-exclude.xml</excludeFilterFile>
 					<threshold>low</threshold>
 					<plugins>
 						<plugin>

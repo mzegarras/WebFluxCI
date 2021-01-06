@@ -57,5 +57,25 @@ pipeline {
             }
         }
 
+
+        stage('Docker push') {
+                    agent any
+                    steps {
+
+                        script {
+                              def props = readProperties file: 'config/dev.env'
+                              env.APP = props.APP
+                              env.APP_MODULE = props.APP_MODULE
+                              env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
+                            }
+
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                                  sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                                  sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
+                                }
+
+                    }
+                }
+
     }
 }

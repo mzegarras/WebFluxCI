@@ -37,7 +37,7 @@ pipeline {
                 }
             }
         }
-         stage('Docker') {
+         stage('Docker Build') {
             agent any
             steps {
                 
@@ -46,7 +46,7 @@ pipeline {
                   env.APP = props.APP
                   env.APP_MODULE = props.APP_MODULE 
                   env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
-              }
+                }
                 sh "echo  $DOCKER_REPOSITORY/$APP-$APP_MODULE"
                
                 copyArtifacts filter: 'target/*.jar', 
@@ -55,15 +55,38 @@ pipeline {
                               flatten: true,
                               selector: specific('${BUILD_NUMBER}'),
                               target: 'target'
-               
-                sh 'ls -lta '
-                sh 'docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest .'
 
-                /*sh '''
+                sh '''
+                    docker build --file ./src/main/docker/Dockerfile --tag $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest .
+                  '''
+    }
+      stage('Docker push') {
+            agent any
+            steps {
+
+                script {
+                                  def props = readProperties file: 'config/dev.env'
+                                  env.APP = props.APP
+                                  env.APP_MODULE = props.APP_MODULE
+                                  env.DOCKER_REPOSITORY= props.DOCKER_REPOSITORY
+                                }
+
+
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                          sh 'docker push $DOCKER_REPOSITORY/$APP-$APP_MODULE:latest'
+                        }
+
+            }
+      }
+}
+
+
+
+/*sh '''
                 docker-compose -f ./test/docker-compose.yaml build &&
                 docker-compose -f ./test/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
                 docker-compose -f ./test/docker-compose.yaml down
-                '''*/
               /*  #sh  'docker-compose -f ./config/docker-compose.yaml build &&
 #          docker-compose -f ./config/docker-compose.yaml build &&
 #          docker-compose -f ./config/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
@@ -77,6 +100,3 @@ pipeline {
                 echo 'Deploying....'
             }
         }*/
-      
-    }
-}

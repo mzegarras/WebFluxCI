@@ -8,7 +8,7 @@ on:
 jobs:
 
   test:
-    name: Run unit tests
+    name: CI
     runs-on: ubuntu-18.04
     #if: false # always skip job
     steps:

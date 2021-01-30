@@ -68,7 +68,6 @@ pipeline {
 #          docker-compose -f ./config/docker-compose.yaml build &&
 #          docker-compose -f ./config/docker-compose.yaml up --abort-on-container-exit --exit-code-from test &&
 #          docker-compose -f ./config/docker-compose.yaml down  */
-
             }
         }
        /*

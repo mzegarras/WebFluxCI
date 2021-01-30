@@ -77,13 +77,13 @@ public class Producto implements Serializable {
 
     //TODO: Spotbugs
     public Date getCreateAt() {
-        return this.createAt;
-        //return this.createAt != null ? (Date) createAt.clone() : null;
+        //return this.createAt;
+        return this.createAt != null ? (Date) createAt.clone() : null;
     }
 
     public void setCreateAt(Date createAt) {
-        this.createAt=createAt;
-        //this.createAt = createAt != null ? (Date) createAt.clone() : null;
+        //this.createAt=createAt;
+        this.createAt = createAt != null ? (Date) createAt.clone() : null;
     }
 
     @Valid

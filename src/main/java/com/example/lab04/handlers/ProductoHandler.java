@@ -35,10 +35,10 @@ import java.text.ParseException;
 import java.util.Date;
 
 // TODO: PMD 2
-//import java.util.List;
+import java.util.List;
 
 // TODO: PMD 3
-//import java.applet.*;
+import java.applet.*;
 
 @Component
 public class ProductoHandler {

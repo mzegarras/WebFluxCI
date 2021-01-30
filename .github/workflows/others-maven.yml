@@ -31,7 +31,7 @@ jobs:
       - name: Run unit tests
         run: mvn -B verify
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.3
+        uses: EnricoMi/publish-unit-test-result-action@v1.7
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
